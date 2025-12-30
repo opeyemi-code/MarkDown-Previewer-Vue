@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-const person = ref("John Doe");
+import Header from "./components/Header.vue";
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <h1 class="text-red-400">Hello, {{ person }}</h1>
-  <p class="text-red-900">Testing something...</p>
+  <div class="wrapper flex flex-col justify-between font-inter h-screen">
+    <Header />
+    <RouterView />
+  </div>
 </template>
 
 <style scoped></style>

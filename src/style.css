@@ -1,1 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+}
+
+/* App container */
+body,
+html {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* main content area should grow */
+.wrapper {
+  flex: 1;
+}
+
+.saved-page__main {
+  display: flex;
+  flex-direction: column;
+}
+
+.empty-state {
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(50%, 50%); */
+  flex: 1;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 32px;
+  gap: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  margin-top: 30px;
+}
