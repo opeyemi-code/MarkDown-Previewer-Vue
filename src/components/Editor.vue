@@ -2,20 +2,14 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { ref, computed } from "vue";
+import { ref } from "vue";
+import { store } from "../stores/useMarkdownStore.js";
+import type { Ref } from "vue";
 
-const inputValue = ref("");
+const textareaRef = ref<HTMLTextAreaElement | null>(null);
 
-const handleInput = () => console.log(inputValue.value);
-
-const stats = computed(() => {
-  const text = inputValue.value.trim();
-
-  return {
-    lines: text ? text.split("\n").length : 0,
-    words: text ? text.split(/\s+/).length : 0,
-    characters: inputValue.value.length,
-  };
+defineExpose({
+  textareaRef,
 });
 </script>
 
@@ -35,7 +29,7 @@ const stats = computed(() => {
         </div>
 
         <!-- Success message  -->
-        <p aria-live="polite" role="status">
+        <p aria-live="polite" role="status" class="hidden">
           <FontAwesomeIcon
             :icon="faCheck"
             class="success-message__icon"
@@ -46,21 +40,21 @@ const stats = computed(() => {
 
         <div class="flex gap-4 text-slate-500">
           <h6>
-            Line: <span aria-label="">{{ stats.lines }}</span>
+            Line: <span aria-label="">{{ store.stats.lines }}</span>
           </h6>
           <h6 class="editor__sub-text editor__word">
             Words:
             <span class="editor__word-count" aria-label="">
-              {{ stats.words }}
+              {{ store.stats.words }}
             </span>
           </h6>
         </div>
       </legend>
 
       <textarea
-        @input="handleInput"
-        ref="{textareaRef}"
-        v-model.trim="inputValue"
+        ref="textareaRef"
+        @input="store.handleInput()"
+        v-model.trim="store.inputValue"
         class="editor__textarea bg-white text-sm w-full h-full p-4 outline-0 caret-black text-neutral-800 flex-1 rounded-b-lg"
         placeholder="# Welcome to MarkdownPro 
 Start typing your markdown here..."
