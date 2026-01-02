@@ -2,6 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import HeaderNav from "./HeaderNav.vue";
+import { store } from "../stores/useMarkdownStore.js";
 </script>
 
 <template>
@@ -30,6 +31,7 @@ import HeaderNav from "./HeaderNav.vue";
       className="btn header__hamburger-btn lg:hidden bg-[#E5E7EB] p-1.5 cursor-pointer"
       aria-label=""
       aria-controls="main-navigation"
+      @click="store.toggleNavigation()"
     >
       <FontAwesomeIcon :icon="faBars" className="hamburger-menu" />
     </button>

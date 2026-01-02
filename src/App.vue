@@ -4,7 +4,7 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <div class="wrapper flex flex-col justify-between font-inter h-screen">
+  <div class="wrapper flex flex-col justify-between font-inter">
     <Header />
     <RouterView />
   </div>

@@ -4,7 +4,6 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { ref } from "vue";
 import { store } from "../stores/useMarkdownStore.js";
-import type { Ref } from "vue";
 
 const textareaRef = ref<HTMLTextAreaElement | null>(null);
 
@@ -53,7 +52,6 @@ defineExpose({
 
       <textarea
         ref="textareaRef"
-        @input="store.handleInput()"
         v-model.trim="store.inputValue"
         class="editor__textarea bg-white text-sm w-full h-full p-4 outline-0 caret-black text-neutral-800 flex-1 rounded-b-lg"
         placeholder="# Welcome to MarkdownPro 

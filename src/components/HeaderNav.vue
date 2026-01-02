@@ -1,10 +1,14 @@
 <script lang="ts" setup>
 import { RouterLink } from "vue-router";
+import { store } from "../stores/useMarkdownStore.js";
 </script>
 
 <template>
   <nav
-    class="absolute top-full left-0 w-full bg-white border-t border-[#e5e7eb] px-4 py-2 hidden lg:block lg:py-0 lg:static lg:border-0 lg:w-auto lg:px-0"
+    :class="[
+      store.toggleNav ? 'block' : 'hidden',
+      'lg:block absolute top-full left-0 w-full bg-white border-t border-[#e5e7eb] px-4 py-2 lg:py-0 lg:static lg:border-0 lg:w-auto lg:px-0',
+    ]"
     role="navigation"
     aria-label="Primary Navigation"
   >

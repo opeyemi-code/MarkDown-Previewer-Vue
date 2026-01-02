@@ -14,7 +14,7 @@ import {
 import Button from "./Button.vue";
 import ButtonWithText from "./ButtonWithText.vue";
 import type { Ref } from "vue";
-// import { store } from "../stores/useMarkdownStore.js";
+import { store } from "../stores/useMarkdownStore.js";
 
 defineProps<{
   applyFormatting: (syntaxStart: string, syntaxEnd?: string) => void;
@@ -84,6 +84,7 @@ defineProps<{
         text="Save"
         ariaLabel="Save markdown file"
         class="bg-green-600 hover:bg-green-700 text-slate-50 p-2 rounded-md cursor-pointer"
+        :handleClick="() => store.handleSaveButton()"
       >
         <FontAwesomeIcon :icon="faSave" />
       </ButtonWithText>
@@ -91,6 +92,11 @@ defineProps<{
         text="Download"
         ariaLabel="Download markdown file"
         class="bg-blue-600 hover:bg-blue-700 text-slate-50 p-2 rounded-md cursor-pointer"
+        :handleClick="
+          () => {
+            store.downloadMarkdown(store.inputValue);
+          }
+        "
       >
         <FontAwesomeIcon :icon="faDownload" class="hidden! md:inline-block!" />
       </ButtonWithText>
