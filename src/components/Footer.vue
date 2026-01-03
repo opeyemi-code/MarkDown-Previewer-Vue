@@ -14,7 +14,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
         target="_blank"
         rel="noopener"
       >
-        <FontAwesomeIcon :icon="faGithub" className="mr-1" />
+        <FontAwesomeIcon :icon="faGithub" class="mr-1" />
         GitHub
       </a>
     </p>

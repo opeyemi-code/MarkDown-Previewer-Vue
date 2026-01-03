@@ -13,7 +13,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button.vue";
 import ButtonWithText from "./ButtonWithText.vue";
-import type { Ref } from "vue";
 import { store } from "../stores/useMarkdownStore.js";
 
 defineProps<{
