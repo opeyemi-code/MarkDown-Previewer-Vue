@@ -1,22 +1,41 @@
-
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 import HomeView from "../components/views/HomeView.vue";
-// import SavedFilesView from "../components/views/SavedFiles.vue"
-import SavedFilesView from "../components/views/SavedFilesView.vue"
+import SavedFilesView from "../components/views/SavedFilesView.vue";
 import AboutView from "../components/views/AboutView.vue";
-import ErrorPageView from "../components/views/ErrorPageView.vue"
+import ErrorPageView from "../components/views/ErrorPageView.vue";
 
 const routes = [
-  { path: "/", component: HomeView },
-  { path: "/saved-files", component: SavedFilesView },
-  { path: "/about", component: AboutView },
-  { path: "/*", component: ErrorPageView },
+  {
+    path: "/",
+    component: HomeView,
+    meta: { title: "MarkdownPro | Home" }
+  },
+  {
+    path: "/saved-files",
+    component: SavedFilesView,
+    meta: { title: "MarkdownPro | Saved Files" }
+  },
+  {
+    path: "/about",
+    component: AboutView,
+    meta: { title: "MarkdownPro | About" }
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: ErrorPageView,
+    meta: { title: "MarkdownPro | Not Found" }
+  }
 ];
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
+});
+
+// ✅ REGISTER THE HOOK ON ROUTER
+router.afterEach((to) => {
+  document.title = to.meta.title || "MarkdownPro";
 });
 
 export default router;

@@ -82,6 +82,6 @@ export const store = reactive({
             type: "text/markdown;charset=utf-8",
         });
         saveAs(blob, `${fileName}.md`);
-    }
+    },
 
 });

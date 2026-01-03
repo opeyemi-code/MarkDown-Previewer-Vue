@@ -13,12 +13,13 @@ import { store } from "../stores/useMarkdownStore.js";
     aria-label="Primary Navigation"
   >
     <ul class="nav__list flex justify-between gap-5" role="menubar">
-      <li class="nav__item" role="none">
+      <li class="nav__item hover:bg-blue-50 px-2 py-1 rounded-sm" role="none">
         <RouterLink
+          id="home"
           to="/"
           role="menuitem"
           aria-current=""
-          class="nav__link text-sm text-slate-700 font-medium lg:text-lg"
+          class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
         >
           Home
         </RouterLink>
@@ -26,10 +27,11 @@ import { store } from "../stores/useMarkdownStore.js";
 
       <li class="nav__item" role="none">
         <RouterLink
+          id="saved-files"
           to="/saved-files"
           role="menuitem"
           aria-current=""
-          class="nav__link text-sm text-slate-700 font-medium lg:text-lg"
+          class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
         >
           Saved Files
         </RouterLink>
@@ -37,10 +39,11 @@ import { store } from "../stores/useMarkdownStore.js";
 
       <li class="nav__item" role="none">
         <RouterLink
+          id="about"
           to="/about"
           role="menuitem"
           aria-current=""
-          class="nav__link text-sm text-slate-700 font-medium lg:text-lg"
+          class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
         >
           About
         </RouterLink>
