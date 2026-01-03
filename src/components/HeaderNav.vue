@@ -18,7 +18,7 @@ import { store } from "../stores/useMarkdownStore.js";
           id="home"
           to="/"
           role="menuitem"
-          aria-current=""
+          aria-current="page"
           class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
         >
           Home
@@ -30,7 +30,7 @@ import { store } from "../stores/useMarkdownStore.js";
           id="saved-files"
           to="/saved-files"
           role="menuitem"
-          aria-current=""
+          aria-current="page"
           class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
         >
           Saved Files
@@ -42,7 +42,7 @@ import { store } from "../stores/useMarkdownStore.js";
           id="about"
           to="/about"
           role="menuitem"
-          aria-current=""
+          aria-current="page"
           class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
         >
           About

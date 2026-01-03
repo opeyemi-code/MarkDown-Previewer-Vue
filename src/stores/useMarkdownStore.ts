@@ -1,7 +1,7 @@
-// src/stores/useMarkdownStore.ts
 import { reactive, computed } from "vue";
 import dayjs from "dayjs";
 import { saveAs } from "file-saver";
+import type { ComputedRef } from "vue";
 
 /* ---------------- TYPES ---------------- */
 
@@ -27,11 +27,7 @@ interface MarkdownStore {
   handleSaveButton(): void;
   downloadMarkdown(content: string): void;
 
-  stats: {
-    lines: number;
-    words: number;
-    characters: number;
-  };
+  stats: ComputedRef<{ lines: number; words: number; characters: number }>;
 }
 
 /* ---------------- STORE ---------------- */
@@ -45,11 +41,11 @@ export const store: any = reactive<MarkdownStore>({
   ) as Note[],
 
   toggleNavigation() {
-    this.toggleNav = !this.toggleNav;
+    store.toggleNav = !store.toggleNav;
   },
 
   stats: computed(() => {
-    const text = store.inputValue.trim();
+    const text: string = store.inputValue.trim();
 
     return {
       lines: text ? text.split("\n").length : 0,
@@ -68,11 +64,11 @@ export const store: any = reactive<MarkdownStore>({
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
 
-    const selectedText = this.inputValue.slice(start, end);
-    const before = this.inputValue.slice(0, start);
-    const after = this.inputValue.slice(end);
+    const selectedText = store.inputValue.slice(start, end);
+    const before = store.inputValue.slice(0, start);
+    const after = store.inputValue.slice(end);
 
-    this.inputValue = before + syntaxStart + selectedText + syntaxEnd + after;
+    store.inputValue = before + syntaxStart + selectedText + syntaxEnd + after;
 
     requestAnimationFrame(() => {
       textarea.focus();
@@ -82,26 +78,27 @@ export const store: any = reactive<MarkdownStore>({
   },
 
   handleSaveButton() {
-    if (!this.inputValue.trim()) return;
+    if (!store.inputValue.trim()) return;
 
     const formattedDate = dayjs().format("YYYY-MM-DD");
 
     const note: Note = {
       id: Date.now(),
-      title: this.inputValue.split("\n")[0].replace(/^#+\s*/, "") || "Untitled",
-      content: this.inputValue.trim(),
+      title:
+        store.inputValue.split("\n")[0].replace(/^#+\s*/, "") || "Untitled",
+      content: store.inputValue.trim(),
       firstCreated: formattedDate,
       lastModified: formattedDate,
     };
 
-    this.storedMarkdownFiles.unshift(note);
+    store.storedMarkdownFiles.unshift(note);
 
     localStorage.setItem(
       "storedFiles",
-      JSON.stringify(this.storedMarkdownFiles)
+      JSON.stringify(store.storedMarkdownFiles)
     );
 
-    this.inputValue = "";
+    store.inputValue = "";
   },
 
   downloadMarkdown(content: string) {

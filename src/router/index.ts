@@ -1,31 +1,31 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import HomeView from "../components/views/HomeView.vue";
-import SavedFilesView from "../components/views/SavedFilesView.vue";
-import AboutView from "../components/views/AboutView.vue";
-import ErrorPageView from "../components/views/ErrorPageView.vue";
+import HomeView from "../views/HomeView.vue";
+import SavedFilesView from "../views/SavedFilesView.vue";
+import AboutView from "../views/AboutView.vue";
+import ErrorPageView from "../views/ErrorPageView.vue";
 
 const routes = [
   {
     path: "/",
     component: HomeView,
-    meta: { title: "MarkdownPro | Home" }
+    meta: { title: "MarkdownPro | Home" },
   },
   {
     path: "/saved-files",
     component: SavedFilesView,
-    meta: { title: "MarkdownPro | Saved Files" }
+    meta: { title: "MarkdownPro | Saved Files" },
   },
   {
     path: "/about",
     component: AboutView,
-    meta: { title: "MarkdownPro | About" }
+    meta: { title: "MarkdownPro | About" },
   },
   {
     path: "/:pathMatch(.*)*",
     component: ErrorPageView,
-    meta: { title: "MarkdownPro | Not Found" }
-  }
+    meta: { title: "MarkdownPro | Not Found" },
+  },
 ];
 
 const router = createRouter({

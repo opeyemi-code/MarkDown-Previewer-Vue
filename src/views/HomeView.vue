@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import EditorToolbar from "../EditorToolBar.vue";
-import Editor from "../Editor.vue";
-import LivePreview from "../LivePreview.vue";
-import Footer from "../Footer.vue";
+import EditorToolbar from "../components/EditorToolBar.vue";
+import Editor from "../components/Editor.vue";
+import LivePreview from "../components/LivePreview.vue";
+import Footer from "../components/Footer.vue";
 import { ref } from "vue";
 import { store } from "@/stores/useMarkdownStore.js";
 

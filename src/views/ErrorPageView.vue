@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
-import Footer from "../Footer.vue";
+import Footer from "../components/Footer.vue";
 </script>
 
 <template>
