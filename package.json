@@ -14,7 +14,7 @@
     "type-check": "vue-tsc --build"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "npm:@rollup/rollup-wasm@^4"
+    "@rollup/rollup-linux-x64-gnu": "^4.54.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
