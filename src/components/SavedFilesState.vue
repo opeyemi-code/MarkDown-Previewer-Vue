@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { RouterLink } from "vue-router";
