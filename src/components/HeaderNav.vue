@@ -1,14 +1,6 @@
 <script lang="ts" setup>
 import { RouterLink } from "vue-router";
 import { store } from "../stores/useMarkdownStore.js";
-
-function isActive() {
-  const linkElement = document.querySelectorAll(".nav__link");
-
-  console.log(linkElement);
-}
-
-// isActive();
 </script>
 
 <template>

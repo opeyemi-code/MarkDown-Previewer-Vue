@@ -30,14 +30,14 @@ import Footer from "../components/Footer.vue";
         The page you're looking for doesn't exist or has been moved.
       </p>
 
-      <a
+      <RouterLink
         to="/"
         class="bg-blue-600 text-slate-50 text-[1rem] p-3 w-full rounded-lg lg:text-lg"
         role="button"
         aria-label="Go back to the home page"
       >
         Back to Home
-      </a>
+      </RouterLink>
     </section>
   </main>
   <Footer />

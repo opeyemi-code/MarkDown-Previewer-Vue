@@ -10,7 +10,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
     <p>© 2024 MarkdownPro. All rights reserved.</p>
     <p>
       <a
-        href="https://www.github.com/opeyemi-code/MarkDown-Previewer"
+        href="https://github.com/opeyemi-code/MarkDown-Previewer-Vue"
         target="_blank"
         rel="noopener"
       >
