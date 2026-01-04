@@ -25,7 +25,9 @@ interface MarkdownStore {
     syntaxEnd?: string
   ): void;
   handleSaveButton(): void;
+  deleteMarkdownFile(id: number): void;
   downloadMarkdown(content: string): void;
+  downloadSavedMarkdwonFile(e: MouseEvent, id: number): void;
 
   stats: ComputedRef<{ lines: number; words: number; characters: number }>;
 }
@@ -101,6 +103,17 @@ export const store: any = reactive<MarkdownStore>({
     store.inputValue = "";
   },
 
+  //Handle file deletion
+  deleteMarkdownFile(id) {
+    store.storedMarkdownFiles = store.storedMarkdownFiles.filter(
+      (file: Note) => file.id !== id
+    );
+    localStorage.setItem(
+      "markdownNotes",
+      JSON.stringify(store.storedMarkdownFiles)
+    );
+  },
+
   downloadMarkdown(content: string) {
     if (!content.trim()) return;
 
@@ -110,5 +123,16 @@ export const store: any = reactive<MarkdownStore>({
     });
 
     saveAs(blob, `${fileName}.md`);
+  },
+
+  //handle downloading of saved markdownfile
+  downloadSavedMarkdwonFile(e, id: number) {
+    e.preventDefault();
+    const findFile: Note = store.storedMarkdownFiles.find(
+      (file: Note) => file.id === id
+    );
+    if (findFile) {
+      store.downloadMarkdown(findFile.content);
+    }
   },
 });

@@ -1,5 +1,5 @@
 <!-- Card.vue -->
-<script setup>
+<script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faDownload,
@@ -7,19 +7,34 @@ import {
   faFolderOpen,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { store } from "@/stores/useMarkdownStore";
 
-defineProps({
-  title: String,
-  firstCreated: String,
-  id: Number,
-});
+// Strongly typed props
+const props = defineProps<{
+  id: number;
+  title: string;
+  firstCreated: string;
+}>();
+
+// handle saved file
+const handleSavedMarkdownFile = (e: MouseEvent) => {
+  e.preventDefault();
+  store.downloadSavedMarkdwonFile(e, props.id);
+};
+
+// Delegate deletion to the store
+const handleDelete = (e: MouseEvent) => {
+  e.preventDefault();
+  store.deleteMarkdownFile(props.id);
+};
 </script>
 
 <template>
   <li
     class="bg-white rounded-xl p-4 shadow"
     role="article"
-    :aria-labelledby="`file-title-${id}`"
+    :aria-labelledby="`file-title-${props.id}`"
+    :id="`file-${props.id}`"
   >
     <div class="flex items-center gap-2.5">
       <FontAwesomeIcon
@@ -30,16 +45,16 @@ defineProps({
 
       <div>
         <h3
-          :id="`file-title-${id}`"
+          :id="`file-title-${props.id}`"
           class="text-slate-900 font-medium text-[16px]"
         >
-          {{ title }}
+          {{ props.title }}
         </h3>
 
         <p class="text-sm text-gray-400 mt-1">
           First created:
-          <time :datetime="firstCreated">
-            {{ firstCreated }}
+          <time :datetime="props.firstCreated">
+            {{ props.firstCreated }}
           </time>
         </p>
       </div>
@@ -48,7 +63,7 @@ defineProps({
     <div
       class="mt-3 flex gap-2"
       role="group"
-      :aria-label="`Actions for ${title}`"
+      :aria-label="`Actions for ${props.title}`"
     >
       <button
         class="bg-blue-600 hover:bg-blue-700 cursor-pointer text-slate-100 flex-1 p-2 rounded-lg"
@@ -57,11 +72,18 @@ defineProps({
         Open
       </button>
 
-      <button class="p-2 hover:bg-slate-300 rounded-lg">
+      <button
+        class="p-2 hover:bg-slate-300 rounded-lg"
+        @click="handleSavedMarkdownFile"
+      >
         <FontAwesomeIcon :icon="faDownload" />
       </button>
 
-      <button class="p-2 hover:bg-slate-300 rounded-lg text-red-600">
+      <button
+        class="p-2 hover:bg-slate-300 rounded-lg text-red-600"
+        @click="handleDelete"
+        aria-label="Delete file"
+      >
         <FontAwesomeIcon :icon="faTrash" />
       </button>
     </div>

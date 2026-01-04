@@ -10,6 +10,7 @@
 body,
 html {
   height: 100%;
+  margin: 0;
 }
 
 #root {
@@ -20,7 +21,7 @@ html {
 
 /* main content area should grow */
 .wrapper {
-  flex: 1;
+  flex: 1 0 auto;
 }
 
 .saved-page__main {
@@ -44,4 +45,8 @@ html {
   border: 1px solid #e5e7eb;
   border-radius: 16px;
   margin-top: 30px;
+}
+
+footer {
+  flex-shrink: 0;
 }

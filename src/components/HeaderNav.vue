@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 import { RouterLink } from "vue-router";
 import { store } from "../stores/useMarkdownStore.js";
+
+function isActive() {
+  const linkElement = document.querySelectorAll(".nav__link");
+
+  console.log(linkElement);
+}
+
+// isActive();
 </script>
 
 <template>
@@ -13,13 +21,13 @@ import { store } from "../stores/useMarkdownStore.js";
     aria-label="Primary Navigation"
   >
     <ul class="nav__list flex justify-between gap-5" role="menubar">
-      <li class="nav__item hover:bg-blue-50 px-2 py-1 rounded-sm" role="none">
+      <li class="nav__item" role="none">
         <RouterLink
           id="home"
           to="/"
           role="menuitem"
           aria-current="page"
-          class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
+          class="nav__link text-sm text-slate-700 font-medium px-3 py-2 rounded-lg hover:text-blue-600 lg:text-lg"
         >
           Home
         </RouterLink>
@@ -31,7 +39,7 @@ import { store } from "../stores/useMarkdownStore.js";
           to="/saved-files"
           role="menuitem"
           aria-current="page"
-          class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
+          class="nav__link text-sm text-slate-700 font-medium px-3 py-2 rounded-lg hover:text-blue-600 lg:text-lg"
         >
           Saved Files
         </RouterLink>
@@ -43,7 +51,7 @@ import { store } from "../stores/useMarkdownStore.js";
           to="/about"
           role="menuitem"
           aria-current="page"
-          class="nav__link text-sm text-slate-700 font-medium hover:text-blue-600 lg:text-lg"
+          class="nav__link text-sm text-slate-700 font-medium px-3 py-2 rounded-lg hover:text-blue-600 lg:text-lg"
         >
           About
         </RouterLink>
@@ -51,3 +59,10 @@ import { store } from "../stores/useMarkdownStore.js";
     </ul>
   </nav>
 </template>
+
+<style scoped>
+.router-link-active {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+</style>

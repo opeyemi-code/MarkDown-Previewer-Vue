@@ -7,7 +7,7 @@ import SavedFilesState from "../components/SavedFilesState.vue";
 
 <template>
   <main
-    class="px-4 py-12 flex flex-col items-center justify-center lg:px-[5vw] lg:py-15"
+    class="px-4 py-12 flex flex-col items-center justify-between lg:px-[5vw] lg:py-15"
     role="main"
   >
     <SavedFilesEmptyStates v-show="!store.storedMarkdownFiles.length" />
