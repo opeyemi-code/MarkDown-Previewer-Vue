@@ -13,6 +13,9 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "npm:@rollup/rollup-wasm@^4"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-brands-svg-icons": "^7.1.0",
