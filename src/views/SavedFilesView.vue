@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Footer from "../Footer.vue";
-import SavedFilesEmptyStates from "../SavedFilesEmptyStates.vue";
-import { store } from "../../stores/useMarkdownStore";
-import SavedFilesState from "../SavedFilesState.vue";
+import Footer from "../components/Footer.vue";
+import SavedFilesEmptyStates from "../components/SavedFilesEmptyStates.vue";
+import { store } from "../stores/useMarkdownStore.ts";
+import SavedFilesState from "../components/SavedFilesState.vue";
 </script>
 
 <template>

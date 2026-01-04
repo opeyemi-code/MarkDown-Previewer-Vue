@@ -1,7 +1,7 @@
 <script setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
-import Footer from "../Footer.vue";
+import Footer from "../components/Footer.vue";
 </script>
 
 <template>
