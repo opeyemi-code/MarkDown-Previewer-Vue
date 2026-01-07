@@ -39,6 +39,7 @@ This application allows users to write Markdown content and instantly preview th
 #### 1. Markdown Editor with Real-Time Preview
 
 - Textarea-based Markdown editor
+  - Copy markdown content
 - Live rendering using `vue-showdown`
 - Supports:
 

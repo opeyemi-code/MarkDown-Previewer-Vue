@@ -1,8 +1,23 @@
 <script setup lang="ts">
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+// import { byPrefixAndName } from "@awesome.me/kit-KIT_CODE/icons";
 import { store } from "@/stores/useMarkdownStore.js";
 import { VueShowdown } from "vue-showdown";
+import { ref } from "vue";
+
+let copied = ref<boolean>(false);
+
+function copyText(e: MouseEvent) {
+  e.preventDefault();
+
+  if (!store.inputValue) return;
+
+  navigator.clipboard.writeText(store.inputValue);
+  copied.value = !copied.value;
+  //reset the value of copied
+  setTimeout(() => (copied.value = false), 500);
+}
 </script>
 
 <template>
@@ -12,9 +27,18 @@ import { VueShowdown } from "vue-showdown";
     role="region"
   >
     <!-- Header for the preview section -->
-    <header class="border-b border-slate-500 flex items-center gap-2 p-4">
+    <header
+      class="border-b border-slate-500 flex items-center gap-2 p-4 relative"
+    >
       <FontAwesomeIcon :icon="faEye" aria-hidden="true" />
       <h2 id="live-preview-title">Live Preview</h2>
+      <button class="absolute right-3" @click="copyText($event)">
+        <FontAwesomeIcon
+          :icon="copied ? ['fas', 'check'] : ['far', 'clone']"
+          class="transition-colors duration-200"
+          :class="copied ? 'text-green-600' : 'text-slate-500'"
+        />
+      </button>
     </header>
 
     <!-- Markdown render area -->
