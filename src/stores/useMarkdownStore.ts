@@ -39,7 +39,7 @@ export const store: any = reactive<MarkdownStore>({
   toggleNav: false,
 
   storedMarkdownFiles: JSON.parse(
-    localStorage.getItem("storedFiles") || "[]"
+    localStorage.getItem("storedMarkdownFiles") || "[]"
   ) as Note[],
 
   toggleNavigation() {
@@ -96,7 +96,7 @@ export const store: any = reactive<MarkdownStore>({
     store.storedMarkdownFiles.unshift(note);
 
     localStorage.setItem(
-      "storedFiles",
+      "storedMarkdownFiles",
       JSON.stringify(store.storedMarkdownFiles)
     );
 
@@ -108,8 +108,9 @@ export const store: any = reactive<MarkdownStore>({
     store.storedMarkdownFiles = store.storedMarkdownFiles.filter(
       (file: Note) => file.id !== id
     );
+    console.log(store.storedMarkdownFiles);
     localStorage.setItem(
-      "markdownNotes",
+      "storedMarkdownFilesgit",
       JSON.stringify(store.storedMarkdownFiles)
     );
   },
