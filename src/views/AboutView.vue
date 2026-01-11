@@ -5,7 +5,10 @@ import Footer from "../components/Footer.vue";
 </script>
 
 <template>
-  <main class="px-4 lg:px-[5vw] flex justify-center" role="main">
+  <main
+    class="border px-4 lg:px-[5vw] flex justify-center items-center"
+    role="main"
+  >
     <section
       class="bg-white flex flex-col justify-center items-center gap-4 text-center py-12 px-4 rounded-lg shadow lg:py-16 md:w-[60%] lg:w-[40%] lg:mx-auto"
       aria-labelledby="about-title"
@@ -24,5 +27,4 @@ import Footer from "../components/Footer.vue";
       </p>
     </section>
   </main>
-  <Footer />
 </template>

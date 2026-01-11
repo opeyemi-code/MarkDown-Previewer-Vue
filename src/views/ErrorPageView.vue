@@ -40,5 +40,4 @@ import Footer from "../components/Footer.vue";
       </RouterLink>
     </section>
   </main>
-  <Footer />
 </template>

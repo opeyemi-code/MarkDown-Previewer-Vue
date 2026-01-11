@@ -12,6 +12,5 @@ import SavedFilesState from "../components/SavedFilesState.vue";
   >
     <SavedFilesEmptyStates v-show="!store.storedMarkdownFiles.length" />
     <SavedFilesState v-show="store.storedMarkdownFiles.length" />
-    <Footer />
   </main>
 </template>

@@ -23,5 +23,4 @@ function applyFormatting(start: string, end?: string) {
       <LivePreview />
     </section>
   </main>
-  <Footer />
 </template>
