@@ -11,12 +11,12 @@ let copied = ref<boolean>(false);
 function copyText(e: MouseEvent) {
   e.preventDefault();
 
-  if (!store.inputValue) return;
+  if (!store.textareaValue) return;
 
-  navigator.clipboard.writeText(store.inputValue);
+  navigator.clipboard.writeText(store.textareaValue);
   copied.value = !copied.value;
   //reset the value of copied
-  setTimeout(() => (copied.value = false), 500);
+  setTimeout(() => (copied.value = false), 2000);
 }
 </script>
 
@@ -32,12 +32,12 @@ function copyText(e: MouseEvent) {
     >
       <FontAwesomeIcon :icon="faEye" aria-hidden="true" />
       <h2 id="live-preview-title">Live Preview</h2>
-      <button class="absolute right-3" @click="copyText($event)">
-        <FontAwesomeIcon
-          :icon="copied ? ['fas', 'check'] : ['far', 'clone']"
-          class="transition-colors duration-200"
-          :class="copied ? 'text-green-600' : 'text-slate-500'"
-        />
+      <button
+        class="absolute right-3 text-slate-500 hover:cursor-pointer"
+        @click="copyText($event)"
+      >
+        <FontAwesomeIcon :icon="copied ? ['fas', 'check'] : ['far', 'clone']" />
+        {{ copied ? "Copied" : "" }}
       </button>
     </header>
 
@@ -48,10 +48,10 @@ function copyText(e: MouseEvent) {
       aria-label="Rendered Markdown Preview"
     >
       <!-- v-model binds the editor to the store input -->
-      <p v-if="store.inputValue.length < 1" className="live-preview__result">
+      <p v-if="store.textareaValue.length < 1" className="live-preview__result">
         Start typing to see your markdown rendered live.
       </p>
-      <VueShowdown :markdown="store.inputValue" flavor="github" />
+      <VueShowdown :markdown="store.textareaValue" flavor="github" />
     </section>
   </article>
 </template>

@@ -83,7 +83,7 @@ defineProps<{
         text="Save"
         ariaLabel="Save markdown file"
         class="bg-green-600 hover:bg-green-700 text-slate-50 p-2 rounded-md cursor-pointer"
-        :handleClick="() => store.handleSaveButton()"
+        :handleClick="() => store.displayModal()"
       >
         <FontAwesomeIcon :icon="faSave" />
       </ButtonWithText>
@@ -93,7 +93,7 @@ defineProps<{
         class="bg-blue-600 hover:bg-blue-700 text-slate-50 p-2 rounded-md cursor-pointer"
         :handleClick="
           () => {
-            store.downloadMarkdown(store.inputValue);
+            store.downloadMarkdown(store.textareaValue);
           }
         "
       >

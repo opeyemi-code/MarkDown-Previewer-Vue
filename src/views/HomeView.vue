@@ -5,6 +5,7 @@ import LivePreview from "../components/LivePreview.vue";
 import Footer from "../components/Footer.vue";
 import { ref } from "vue";
 import { store } from "@/stores/useMarkdownStore.js";
+import SaveMarkdownModal from "@/components/SaveMarkdownModal.vue";
 
 const editorRef = ref<InstanceType<typeof Editor> | null>(null);
 
@@ -22,5 +23,6 @@ function applyFormatting(start: string, end?: string) {
       <Editor ref="editorRef" />
       <LivePreview />
     </section>
+    <SaveMarkdownModal />
   </main>
 </template>

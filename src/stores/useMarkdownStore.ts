@@ -14,8 +14,10 @@ export interface Note {
 }
 
 interface MarkdownStore {
-  inputValue: string;
+  textareaValue: string;
+  inputFieldValue: string;
   toggleNav: boolean;
+  isModalOpen: boolean;
   storedMarkdownFiles: Note[];
 
   toggleNavigation(): void;
@@ -24,9 +26,11 @@ interface MarkdownStore {
     syntaxStart: string,
     syntaxEnd?: string
   ): void;
-  handleSaveButton(): void;
+  displayModal(): void;
+  saveFileTitle(): void;
+  closeModal(): void;
   deleteMarkdownFile(id: number): void;
-  downloadMarkdown(content: string): void;
+  downloadMarkdown(content: string, title: string): void;
   downloadSavedMarkdwonFile(e: MouseEvent, id: number): void;
 
   stats: ComputedRef<{ lines: number; words: number; characters: number }>;
@@ -35,8 +39,10 @@ interface MarkdownStore {
 /* ---------------- STORE ---------------- */
 
 export const store: any = reactive<MarkdownStore>({
-  inputValue: "",
+  textareaValue: "",
+  inputFieldValue: "",
   toggleNav: false,
+  isModalOpen: false, // Use a boolean to track state
 
   storedMarkdownFiles: JSON.parse(
     localStorage.getItem("markdownFiles") || "[]"
@@ -47,12 +53,12 @@ export const store: any = reactive<MarkdownStore>({
   },
 
   stats: computed(() => {
-    const text: string = store.inputValue.trim();
+    const text: string = store.textareaValue.trim();
 
     return {
       lines: text ? text.split("\n").length : 0,
       words: text ? text.split(/\s+/).length : 0,
-      characters: store.inputValue.length,
+      characters: store.textareaValue.length,
     };
   }),
 
@@ -66,11 +72,12 @@ export const store: any = reactive<MarkdownStore>({
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
 
-    const selectedText = store.inputValue.slice(start, end);
-    const before = store.inputValue.slice(0, start);
-    const after = store.inputValue.slice(end);
+    const selectedText = store.textareaValue.slice(start, end);
+    const before = store.textareaValue.slice(0, start);
+    const after = store.textareaValue.slice(end);
 
-    store.inputValue = before + syntaxStart + selectedText + syntaxEnd + after;
+    store.textareaValue =
+      before + syntaxStart + selectedText + syntaxEnd + after;
 
     requestAnimationFrame(() => {
       textarea.focus();
@@ -79,16 +86,27 @@ export const store: any = reactive<MarkdownStore>({
     });
   },
 
-  handleSaveButton() {
-    if (!store.inputValue.trim()) return;
+  // Handle save button
+
+  displayModal() {
+    if (!store.textareaValue) return;
+    this.isModalOpen = true;
+  },
+
+  closeModal() {
+    store.isModalOpen = false;
+    store.inputFieldValue = "";
+  },
+
+  saveFileTitle() {
+    if (!store.textareaValue.trim()) return;
 
     const formattedDate = dayjs().format("YYYY-MM-DD");
 
     const note: Note = {
       id: Date.now(),
-      title:
-        store.inputValue.split("\n")[0].replace(/^#+\s*/, "") || "Untitled",
-      content: store.inputValue.trim(),
+      title: store.inputFieldValue || "Untitled",
+      content: store.textareaValue.trim(),
       firstCreated: formattedDate,
       lastModified: formattedDate,
     };
@@ -100,7 +118,8 @@ export const store: any = reactive<MarkdownStore>({
       JSON.stringify(store.storedMarkdownFiles)
     );
 
-    store.inputValue = "";
+    store.textareaValue = "";
+    store.closeModal();
   },
 
   //Handle file deletion
@@ -115,10 +134,10 @@ export const store: any = reactive<MarkdownStore>({
     );
   },
 
-  downloadMarkdown(content: string) {
+  downloadMarkdown(content: string, title: string) {
     if (!content.trim()) return;
 
-    const fileName = content.split("\n")[0] || "markdown";
+    const fileName = title;
     const blob = new Blob([content], {
       type: "text/markdown;charset=utf-8",
     });
@@ -133,7 +152,7 @@ export const store: any = reactive<MarkdownStore>({
       (file: Note) => file.id === id
     );
     if (findFile) {
-      store.downloadMarkdown(findFile.content);
+      store.downloadMarkdown(findFile.content, findFile.title);
     }
   },
 });

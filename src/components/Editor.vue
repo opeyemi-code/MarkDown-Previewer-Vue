@@ -52,7 +52,7 @@ defineExpose({
 
       <textarea
         ref="textareaRef"
-        v-model.trim="store.inputValue"
+        v-model.trim="store.textareaValue"
         class="editor__textarea bg-white text-sm w-full h-full p-4 outline-0 caret-black text-neutral-800 flex-1 rounded-b-lg"
         placeholder="# Welcome to MarkdownPro 
 Start typing your markdown here..."
