@@ -50,6 +50,7 @@ import { store } from "../stores/useMarkdownStore";
           :id="file.id"
           :title="file.title"
           :firstCreated="file.firstCreated"
+          :lastModified="file.lastModified"
         />
       </ul>
     </div>

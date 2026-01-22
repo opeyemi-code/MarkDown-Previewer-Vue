@@ -2,6 +2,7 @@ import { reactive, computed } from "vue";
 import dayjs from "dayjs";
 import { saveAs } from "file-saver";
 import type { ComputedRef } from "vue";
+import { toast } from "vue3-toastify";
 
 /* ---------------- TYPES ---------------- */
 
@@ -24,11 +25,12 @@ interface MarkdownStore {
   applyFormatting(
     textarea: HTMLTextAreaElement,
     syntaxStart: string,
-    syntaxEnd?: string
+    syntaxEnd?: string,
   ): void;
   displayModal(): void;
   saveFileTitle(): void;
   closeModal(): void;
+  openFile(id: number): void;
   deleteMarkdownFile(id: number): void;
   downloadMarkdown(content: string, title: string): void;
   downloadSavedMarkdwonFile(e: MouseEvent, id: number): void;
@@ -45,7 +47,7 @@ export const store: any = reactive<MarkdownStore>({
   isModalOpen: false, // Use a boolean to track state
 
   storedMarkdownFiles: JSON.parse(
-    localStorage.getItem("markdownFiles") || "[]"
+    localStorage.getItem("markdownFiles") || "[]",
   ) as Note[],
 
   toggleNavigation() {
@@ -65,7 +67,7 @@ export const store: any = reactive<MarkdownStore>({
   applyFormatting(
     textarea: HTMLTextAreaElement,
     syntaxStart: string,
-    syntaxEnd: string = syntaxStart
+    syntaxEnd: string = syntaxStart,
   ) {
     if (!textarea) return;
 
@@ -101,43 +103,75 @@ export const store: any = reactive<MarkdownStore>({
   saveFileTitle() {
     if (!store.textareaValue.trim()) return;
 
-    const formattedDate = dayjs().format("YYYY-MM-DD");
+    const dateNow = Date.now();
+    const formattedDate = dayjs(dateNow).format("DD-MM-YYYY hh:mm a");
+    const activeFileID = localStorage.getItem("activeFileID");
 
-    const note: Note = {
-      id: Date.now(),
-      title: store.inputFieldValue || "Untitled",
-      content: store.textareaValue.trim(),
-      firstCreated: formattedDate,
-      lastModified: formattedDate,
-    };
+    if (activeFileID !== null) {
+      const index = store.storedMarkdownFiles.findIndex(
+        (file: Note) => file.id === Number(activeFileID),
+      );
 
-    store.storedMarkdownFiles.unshift(note);
+      if (index !== -1) {
+        const original = store.storedMarkdownFiles[index];
 
+        const updated: Note = {
+          ...original,
+          title: store.inputFieldValue || original.title,
+          content: store.textareaValue.trim(),
+          lastModified: formattedDate,
+        };
+
+        store.storedMarkdownFiles.splice(index, 1);
+        store.storedMarkdownFiles.unshift(updated);
+      }
+
+      store.textareaValue = "";
+      localStorage.removeItem("activeFileID");
+    } else {
+      const markdownfile: Note = {
+        id: Date.now(),
+        title: store.inputFieldValue || "Untitled",
+        content: store.textareaValue.trim(),
+        firstCreated: formattedDate,
+        lastModified: formattedDate,
+      };
+
+      store.storedMarkdownFiles.unshift(markdownfile);
+    }
+    // Persist once
     localStorage.setItem(
       "markdownFiles",
-      JSON.stringify(store.storedMarkdownFiles)
+      JSON.stringify(store.storedMarkdownFiles),
     );
 
-    store.textareaValue = "";
     store.closeModal();
+    toast.success("Markdown file saved successfully");
+  },
+
+  openFile(id) {
+    const findFile: Note = store.storedMarkdownFiles.find(
+      (file: Note) => file.id === id,
+    );
+    store.textareaValue = findFile.content;
+    localStorage.setItem("activeFileID", String(findFile.id));
   },
 
   //Handle file deletion
   deleteMarkdownFile(id) {
     store.storedMarkdownFiles = store.storedMarkdownFiles.filter(
-      (file: Note) => file.id !== id
+      (file: Note) => file.id !== id,
     );
-    console.log(store.storedMarkdownFiles);
     localStorage.setItem(
       "markdownFiles",
-      JSON.stringify(store.storedMarkdownFiles)
+      JSON.stringify(store.storedMarkdownFiles),
     );
   },
 
   downloadMarkdown(content: string, title: string) {
     if (!content.trim()) return;
 
-    const fileName = title;
+    const fileName = title || "Untitled";
     const blob = new Blob([content], {
       type: "text/markdown;charset=utf-8",
     });
@@ -149,7 +183,7 @@ export const store: any = reactive<MarkdownStore>({
   downloadSavedMarkdwonFile(e, id: number) {
     e.preventDefault();
     const findFile: Note = store.storedMarkdownFiles.find(
-      (file: Note) => file.id === id
+      (file: Note) => file.id === id,
     );
     if (findFile) {
       store.downloadMarkdown(findFile.content, findFile.title);

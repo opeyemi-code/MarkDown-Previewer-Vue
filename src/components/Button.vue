@@ -1,12 +1,12 @@
 <script setup lang="ts">
 defineProps<{
   ariaLabel: string;
-  applyFormatting?: () => void;
+  handleClick?: () => void;
 }>();
 </script>
 
 <template>
-  <button type="button" :aria-label="ariaLabel" @click="applyFormatting">
+  <button type="button" :aria-label="ariaLabel" @click="handleClick">
     <slot></slot>
   </button>
 </template>

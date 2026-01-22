@@ -14,11 +14,18 @@ const props = defineProps<{
   id: number;
   title: string;
   firstCreated: string;
+  lastModified: string;
 }>();
+
+// handle open file button
+const handleOpenfile = () => {
+  store.openFile(props.id);
+};
 
 // handle saved file
 const handleSavedMarkdownFile = (e: MouseEvent) => {
   e.preventDefault();
+  console.log("Hello");
   store.downloadSavedMarkdwonFile(e, props.id);
 };
 
@@ -51,10 +58,22 @@ const handleDelete = (e: MouseEvent) => {
           {{ props.title }}
         </h3>
 
-        <p class="text-sm text-gray-400 mt-1">
+        <p
+          v-show="firstCreated === lastModified"
+          class="text-sm text-gray-400 mt-1"
+        >
           First created:
           <time :datetime="props.firstCreated">
             {{ props.firstCreated }}
+          </time>
+        </p>
+        <p
+          v-show="firstCreated !== lastModified"
+          class="text-sm text-gray-400 mt-1"
+        >
+          last modified:
+          <time :datetime="props.lastModified">
+            {{ props.lastModified }}
           </time>
         </p>
       </div>
@@ -65,20 +84,25 @@ const handleDelete = (e: MouseEvent) => {
       role="group"
       :aria-label="`Actions for ${props.title}`"
     >
-      <button
-        class="bg-blue-600 hover:bg-blue-700 cursor-pointer text-slate-100 flex-1 p-2 rounded-lg"
+      <RouterLink
+        to="/"
+        class="bg-blue-600 hover:bg-blue-700 cursor-pointer text-center text-slate-100 flex-1 p-2 rounded-lg"
+        @click="handleOpenfile"
       >
-        <FontAwesomeIcon :icon="faFolderOpen" />
+        <FontAwesomeIcon
+          :icon="faFolderOpen"
+          aria-hidden="true"
+          className="mr-2"
+        />
         Open
-      </button>
-
+      </RouterLink>
       <button
-        class="p-2 hover:bg-slate-300 rounded-lg"
+        class="p-2 rounded-lg text-slate-900 cursor-pointer hover:bg-slate-300"
         @click="handleSavedMarkdownFile"
+        aria-label="Delete file"
       >
         <FontAwesomeIcon :icon="faDownload" />
       </button>
-
       <button
         class="p-2 hover:bg-slate-300 rounded-lg text-red-600"
         @click="handleDelete"

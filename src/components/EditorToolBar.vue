@@ -14,10 +14,40 @@ import {
 import Button from "./Button.vue";
 import ButtonWithText from "./ButtonWithText.vue";
 import { store } from "../stores/useMarkdownStore.js";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 defineProps<{
   applyFormatting: (syntaxStart: string, syntaxEnd?: string) => void;
 }>();
+
+// Triger upload button
+const uploadFile = () => {
+  const inputfileField = document.getElementById("input-file");
+  inputfileField?.click();
+};
+
+//Handle file Upload
+const handleFileInput = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  const file = target.files?.[0];
+
+  if (!file) return;
+
+  if (!file.name.endsWith(".md")) {
+    toast.error("Only Markdown (.md) files are supported");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    store.textareaValue = reader.result as string;
+    toast.success("Markdown file uploaded successfully");
+  };
+
+  reader.readAsText(file);
+};
 </script>
 
 <template>
@@ -29,21 +59,21 @@ defineProps<{
       <Button
         class="p-1.5 bg-gray-200 hover:bg-gray-300 rounded-md cursor-pointer"
         ariaLabel="Bold text"
-        :applyFormatting="() => applyFormatting('**', '**')"
+        :handleClick="() => applyFormatting('**', '**')"
       >
         <FontAwesomeIcon :icon="faBold" class="text-slate-600" />
       </Button>
       <Button
         class="p-1.5 bg-gray-200 hover:bg-gray-300 rounded-md cursor-pointer"
         ariaLabel="Italicize text"
-        :applyFormatting="() => applyFormatting('_', '_')"
+        :handleClick="() => applyFormatting('_', '_')"
       >
         <FontAwesomeIcon :icon="faItalic" class="text-slate-600" />
       </Button>
       <Button
         class="p-1.5 bg-gray-200 hover:bg-gray-300 rounded-md cursor-pointer"
         ariaLabel="Add heading"
-        :applyFormatting="() => applyFormatting('# ', '')"
+        :handleClick="() => applyFormatting('# ', '')"
       >
         <FontAwesomeIcon :icon="faHeading" class="text-slate-600" />
       </Button>
@@ -51,34 +81,50 @@ defineProps<{
       <Button
         class="bg-gray-200 hover:bg-gray-300 p-1.5 rounded-md cursor-pointer"
         ariaLabel="Insert list item"
-        :applyFormatting="() => applyFormatting('- ', '')"
+        :handleClick="() => applyFormatting('- ', '')"
       >
         <FontAwesomeIcon :icon="faList" class="text-slate-600" />
       </Button>
       <Button
         class="p-1.5 bg-gray-200 hover:bg-gray-300 rounded-md cursor-pointer"
         ariaLabel="Add hyperlink"
-        :applyFormatting="() => applyFormatting('[', '](url)')"
+        :handleClick="() => applyFormatting('[', '](url)')"
       >
         <FontAwesomeIcon :icon="faLink" class="text-slate-600" />
       </Button>
       <Button
         class="p-1.5 bg-gray-200 hover:bg-gray-300 rounded-md cursor-pointer"
         ariaLabel="Insert code snippet"
-        :applyFormatting="() => applyFormatting('`', '`')"
+        :handleClick="() => applyFormatting('`', '`')"
       >
         <FontAwesomeIcon :icon="faCode" class="text-slate-600" />
       </Button>
     </div>
     <!-- Action Buttons -->
     <div class="flex gap-3" role="group" aria-label="File actions">
-      <ButtonWithText
-        text="Upload"
-        ariaLabel="Upload markdown file"
-        class="text-slate-600 hover:bg-slate-200 p-2 rounded-lg cursor-pointer"
-      >
-        <FontAwesomeIcon :icon="faUpload" />
-      </ButtonWithText>
+      <div>
+        <ButtonWithText
+          text="Upload"
+          ariaLabel="Upload markdown file"
+          class="text-slate-600 hover:bg-slate-200 p-2 rounded-lg cursor-pointer"
+          :handleClick="
+            () => {
+              uploadFile();
+            }
+          "
+        >
+          <FontAwesomeIcon :icon="faUpload" />
+        </ButtonWithText>
+        <label htmlFor="input-file">
+          <input
+            type="file"
+            id="input-file"
+            class="hidden"
+            accept=".md"
+            @change="handleFileInput"
+          />
+        </label>
+      </div>
       <ButtonWithText
         text="Save"
         ariaLabel="Save markdown file"
